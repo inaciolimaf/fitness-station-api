@@ -1,99 +1,533 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Fitness Station API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Propósito
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A Fitness Station API é uma aplicação backend desenvolvida para gerenciar empresas, usuários, folhas de treino, treinos e exercícios. Ela fornece endpoints para criar, atualizar, buscar e deletar esses recursos, facilitando a gestão de academias e seus clientes.
 
-## Description
+## Endpoints
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Auth
 
-## Project setup
+#### Login
 
-```bash
-$ yarn install
+- **URL:** `/auth/login`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "username": "string",
+    "password": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "access_token": "string"
+  }
+  ```
+
+### Companies
+
+#### Criar Empresa
+
+- **URL:** `/companies`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Listar Empresas
+
+- **URL:** `/companies`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  [
+    {
+      "id": "string",
+      "name": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ]
+  ```
+
+#### Buscar Empresa por ID
+
+- **URL:** `/companies/:id`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Atualizar Empresa
+
+- **URL:** `/companies/:id`
+- **Método:** `PATCH`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Deletar Empresa
+
+- **URL:** `/companies/:id`
+- **Método:** `DELETE`
+
+### Users
+
+#### Criar Usuário
+
+- **URL:** `/users`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "username": "string",
+    "password": "string",
+    "companyId": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "username": "string",
+    "createdAt": "string",
+    "updatedAt": "string",
+    "companyId": "string"
+  }
+  ```
+
+#### Listar Usuários
+
+- **URL:** `/users`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  [
+    {
+      "id": "string",
+      "username": "string",
+      "createdAt": "string",
+      "updatedAt": "string",
+      "companyId": "string"
+    }
+  ]
+  ```
+
+#### Buscar Usuário por ID
+
+- **URL:** `/users/:id`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "username": "string",
+    "createdAt": "string",
+    "updatedAt": "string",
+    "companyId": "string"
+  }
+  ```
+
+#### Atualizar Usuário
+
+- **URL:** `/users/:id`
+- **Método:** `PATCH`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "username": "string",
+    "password": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "username": "string",
+    "createdAt": "string",
+    "updatedAt": "string",
+    "companyId": "string"
+  }
+  ```
+
+#### Deletar Usuário
+
+- **URL:** `/users/:id`
+- **Método:** `DELETE`
+
+### Workout Sheets
+
+#### Criar Folha de Treino
+
+- **URL:** `/workoutSheets`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string",
+    "type": "string",
+    "isActive": "boolean",
+    "companyId": "string",
+    "users": [
+      {
+        "id": "string"
+      }
+    ],
+    "workouts": [
+      {
+        "name": "string",
+        "exercises": [
+          {
+            "name": "string",
+            "reps": "number",
+            "sets": "number",
+            "muscleGroup": "string",
+            "restPeriod": "number",
+            "videoLink": "string"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "type": "string",
+    "isActive": "boolean",
+    "companyId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Listar Folhas de Treino
+
+- **URL:** `/workoutSheets`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  [
+    {
+      "id": "string",
+      "name": "string",
+      "type": "string",
+      "isActive": "boolean",
+      "companyId": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ]
+  ```
+
+#### Buscar Folha de Treino por ID
+
+- **URL:** `/workoutSheets/:id`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "type": "string",
+    "isActive": "boolean",
+    "companyId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Atualizar Folha de Treino
+
+- **URL:** `/workoutSheets/:id`
+- **Método:** `PUT`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string",
+    "type": "string",
+    "isActive": "boolean",
+    "companyId": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "type": "string",
+    "isActive": "boolean",
+    "companyId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Deletar Folha de Treino
+
+- **URL:** `/workoutSheets/:id`
+- **Método:** `DELETE`
+
+### Workouts
+
+#### Criar Treino
+
+- **URL:** `/workouts`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string",
+    "workoutSheetId": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "workoutSheetId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Listar Treinos
+
+- **URL:** `/workouts`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  [
+    {
+      "id": "string",
+      "name": "string",
+      "workoutSheetId": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ]
+  ```
+
+#### Buscar Treino por ID
+
+- **URL:** `/workouts/:id`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "workoutSheetId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Atualizar Treino
+
+- **URL:** `/workouts/:id`
+- **Método:** `PATCH`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "workoutSheetId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Deletar Treino
+
+- **URL:** `/workouts/:id`
+- **Método:** `DELETE`
+
+### Exercises
+
+#### Criar Exercício
+
+- **URL:** `/exercises`
+- **Método:** `POST`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string",
+    "reps": "number",
+    "sets": "number",
+    "muscleGroup": "string",
+    "restPeriod": "number",
+    "videoLink": "string",
+    "workoutId": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "reps": "number",
+    "sets": "number",
+    "muscleGroup": "string",
+    "restPeriod": "number",
+    "videoLink": "string",
+    "workoutId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Listar Exercícios
+
+- **URL:** `/exercises`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  [
+    {
+      "id": "string",
+      "name": "string",
+      "reps": "number",
+      "sets": "number",
+      "muscleGroup": "string",
+      "restPeriod": "number",
+      "videoLink": "string",
+      "workoutId": "string",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
+  ]
+  ```
+
+#### Buscar Exercício por ID
+
+- **URL:** `/exercises/:id`
+- **Método:** `GET`
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "reps": "number",
+    "sets": "number",
+    "muscleGroup": "string",
+    "restPeriod": "number",
+    "videoLink": "string",
+    "workoutId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Atualizar Exercício
+
+- **URL:** `/exercises/:id`
+- **Método:** `PATCH`
+- **Corpo da Requisição:**
+  ```json
+  {
+    "name": "string",
+    "reps": "number",
+    "sets": "number",
+    "muscleGroup": "string",
+    "restPeriod": "number",
+    "videoLink": "string"
+  }
+  ```
+- **Resposta:**
+  ```json
+  {
+    "id": "string",
+    "name": "string",
+    "reps": "number",
+    "sets": "number",
+    "muscleGroup": "string",
+    "restPeriod": "number",
+    "videoLink": "string",
+    "workoutId": "string",
+    "createdAt": "string",
+    "updatedAt": "string"
+  }
+  ```
+
+#### Deletar Exercício
+
+- **URL:** `/exercises/:id`
+- **Método:** `DELETE`
+
+## Configuração
+
+Para configurar a API, crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```
+PORT=3000
+DATABASE_URL=postgresql://user:password@localhost:5432/database
+HASH_SECRET=your_hash_secret
+JWT_SECRET=your_jwt_secret
 ```
 
-## Compile and run the project
+## Executando a Aplicação
+
+Para executar a aplicação, utilize os seguintes comandos:
 
 ```bash
-# development
-$ yarn run start
+# Instalar dependências
+npm install
 
-# watch mode
-$ yarn run start:dev
+# Rodar a aplicação em modo de desenvolvimento
+npm run start:dev
 
-# production mode
-$ yarn run start:prod
+# Rodar a aplicação em modo de produção
+npm run start:prod
 ```
 
-## Run tests
+## Testes
+
+Para rodar os testes, utilize o seguinte comando:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+npm run test
 ```
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ yarn install -g mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
