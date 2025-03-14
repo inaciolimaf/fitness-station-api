@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  client
+}
+
+enum WorkoutType {
+  default
+  custom
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  LEGS
+  SHOULDERS
+  ARMS
+  CORE
+}
+
+model User {
+  id              String          @id @default(uuid())
+  username        String          @unique
+  password        String
+  role            Role            @default(client)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  company         Company         @relation(fields: [companyId], references: [id])
+  companyId       String
+  workoutSheets   WorkoutSheet[]  @relation("WorkoutSheetUsers")
+  @@map("users")
+  WorkoutSheetUsers WorkoutSheetUsers[]
+}
+
+model Company {
+  id            String          @id @default(uuid())
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  users         User[]
+  workoutSheets WorkoutSheet[]
+  @@map("companies")
+}
+
+model WorkoutSheet {
+  id          String          @id @default(uuid())
+  name        String
+  type        WorkoutType     @default(default)
+  isActive    Boolean         @default(false)
+  users       User[]          @relation("WorkoutSheetUsers")
+  company     Company         @relation(fields: [companyId], references: [id])
+  companyId   String
+  workouts    Workout[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  @@map("workout_sheets")
+  WorkoutSheetUsers WorkoutSheetUsers[]
+}
+
+model Workout {
+  id              String      @id @default(uuid())
+  name            String
+  workoutSheet    WorkoutSheet @relation(fields: [workoutSheetId], references: [id], onDelete: Cascade)
+  workoutSheetId  String
+  exercises       Exercise[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  @@map("workouts")
+}
+
+model Exercise {
+  id            String        @id @default(uuid())
+  name          String
+  reps          Int
+  sets          Int
+  muscleGroup   MuscleGroup
+  restPeriod    Int
+  videoLink     String?
+  workout       Workout       @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  workoutId     String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  @@map("exercises")
+}
+
+model WorkoutSheetUsers {
+  userId          String        @map("user_id")
+  workoutSheetId  String        @map("workout_sheet_id")
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workoutSheet    WorkoutSheet  @relation(fields: [workoutSheetId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@id([userId, workoutSheetId])
+  @@map("workout_sheet_users")
+}
