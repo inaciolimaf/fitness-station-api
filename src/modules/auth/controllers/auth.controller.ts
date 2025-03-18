@@ -13,7 +13,8 @@ export class AuthController {
       username: user.username,
       id: user.id,
       role: user.role,
+      companyId: user.companyId,
     });
-    return token;
+    return {token, role: user.role, userId: user.id, companyId: user.companyId};
   }
 }

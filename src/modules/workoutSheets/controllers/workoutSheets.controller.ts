@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Req } from '@nestjs/common';
 import { WorkoutSheetsService } from '../services/workoutSheets.service';
-import { CreateWorkoutSheetDto, UpdateWorkoutSheetDto } from '../dtos/workoutSheetDto';
+import { CreateWorkoutSheetDto, LinkWorkoutSheetToUserDto, UpdateWorkoutSheetDto } from '../dtos/workoutSheetDto';
 import { AuthGuard } from '@modules/auth/providers/auth.guard';
 import { RoleUser } from '@modules/auth/role.decorator';
 
@@ -12,7 +12,7 @@ export class WorkoutSheetsController {
 
   
   @UseGuards(AuthGuard)
-  @RoleUser('client')
+  @RoleUser('admin')
   @Post()
   async create(@Body() createWorkoutSheetDto: CreateWorkoutSheetDto) {
     return await this.workoutSheetsService.create(createWorkoutSheetDto);
@@ -23,9 +23,39 @@ export class WorkoutSheetsController {
     return await this.workoutSheetsService.update(id, updateWorkoutSheetDto);
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
+  @Post('/link-sheet-user')
+  async linkUserToWorkoutSheet(
+    @Body() linkWorkoutSheetToUserDto: LinkWorkoutSheetToUserDto
+  ) {
+    await this.workoutSheetsService.linkUserToWorkoutSheet(linkWorkoutSheetToUserDto.userId, linkWorkoutSheetToUserDto.workoutSheetId);
+    return { message: 'User successfully linked to WorkoutSheet' };
+  }
+
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
+  @Post('/unlink-sheet-user')
+  async unLinkUserToWorkoutSheet(
+    @Body() linkWorkoutSheetToUserDto: LinkWorkoutSheetToUserDto
+  ) {
+    await this.workoutSheetsService.unLinkUserToWorkoutSheet(linkWorkoutSheetToUserDto.userId, linkWorkoutSheetToUserDto.workoutSheetId);
+    return { message: 'User successfully unlinked to WorkoutSheet' };
+  }
+
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   @Get()
   async findAll() {
     return await this.workoutSheetsService.findAll();
+  }
+
+  @UseGuards(AuthGuard)
+  @RoleUser('client')
+  @Get('/client')
+  async findAllByUserId(@Req () req) {
+    const userId = req.user.id as string;
+    return await this.workoutSheetsService.findAllByUserId(userId);
   }
 
   @Get(':id')

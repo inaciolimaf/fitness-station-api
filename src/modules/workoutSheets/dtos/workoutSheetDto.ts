@@ -46,6 +46,16 @@ class UserDto {
   id: string;
 }
 
+export class LinkWorkoutSheetToUserDto{
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  workoutSheetId: string;
+}
+
 export class CreateWorkoutSheetDto {
   @IsString()
   @IsNotEmpty()

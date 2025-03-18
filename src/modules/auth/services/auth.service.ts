@@ -39,6 +39,7 @@ export class AuthService {
       id: payload.id.toString(),
       username: payload.username.toString(),
       roleName: payload.role,
+      companyId: payload.companyId,
     };
     return {
       access_token: this.jwtService.sign(payload, {
@@ -54,6 +55,7 @@ export class AuthService {
       id: payload.id,
       username: payload.username,
       role: payload.role,
+      companyId: payload.companyId,
     };
   }
 

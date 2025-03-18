@@ -11,4 +11,6 @@ export abstract class IWorkoutSheetsRepository {
   abstract findAllWorkoutSheets(): Promise<WorkoutSheet[]>;
   abstract findWorkoutSheetById(id: string): Promise<WorkoutSheet | null>;
   abstract deleteWorkoutSheet(id: string): Promise<void>;
+  abstract findAllWorkoutSheetsByUserId(userId: string): Promise<WorkoutSheet[]>;
+  abstract unLinkUserToWorkoutSheet(userId: string, workoutSheetId: string): Promise<void>
 }

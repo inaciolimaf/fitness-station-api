@@ -52,12 +52,32 @@ export class WorkoutSheetsRepository implements IWorkoutSheetsRepository {
   async linkUserToWorkoutSheet(userId: string, workoutSheetId: string): Promise<void> {
     const userExists = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!userExists) throw new Error('User not found');
-      await this.prisma.workoutSheetUsers.create({
-        data: {
+  
+    const workoutSheetExists = await this.prisma.workoutSheet.findUnique({ where: { id: workoutSheetId } });
+    if (!workoutSheetExists) throw new Error('WorkoutSheet not found');
+  
+    await this.prisma.workoutSheetUsers.create({
+      data: {
+        userId,
+        workoutSheetId,
+      },
+    });
+  }
+  async unLinkUserToWorkoutSheet(userId: string, workoutSheetId: string): Promise<void> {
+    const userExists = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!userExists) throw new Error('User not found');
+  
+    const workoutSheetExists = await this.prisma.workoutSheet.findUnique({ where: { id: workoutSheetId } });
+    if (!workoutSheetExists) throw new Error('WorkoutSheet not found');
+  
+    await this.prisma.workoutSheetUsers.delete({
+      where: {
+        userId_workoutSheetId: {
           userId,
           workoutSheetId,
         },
-      });
+      },
+    });
   }
 
   async findAllWorkoutSheets(): Promise<WorkoutSheet[]> {
@@ -68,7 +88,33 @@ export class WorkoutSheetsRepository implements IWorkoutSheetsRepository {
             exercises: true,
           },
         },
+        WorkoutSheetUsers: {
+          include:{
+            user: true,
+          }
+        }
       },
+    });
+  }
+
+  async findAllWorkoutSheetsByUserId(userId: string): Promise<WorkoutSheet[]> {
+    return this.prisma.workoutSheetUsers.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        workoutSheet: {
+          include: {
+            workouts: {
+              include: {
+                exercises: true,
+              },
+            },
+          },
+        },
+      },
+    }).then((workoutSheetUsers) => {
+      return workoutSheetUsers.map((wsu) => wsu.workoutSheet);
     });
   }
 

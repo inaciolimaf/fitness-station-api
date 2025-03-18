@@ -47,6 +47,7 @@ export class UsersService {
 
     if(updateUserDto.password) userExist.password = updateUserDto.password;
     if(updateUserDto.username) userExist.username = updateUserDto.username;
+    if(updateUserDto.name) userExist.name = updateUserDto.name;
 
     const {password, ...user} = await this.usersRepository.update(id, userExist);
     return user;

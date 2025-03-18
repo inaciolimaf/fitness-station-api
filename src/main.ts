@@ -10,7 +10,7 @@ async function bootstrap() {
   const config = configuration();
   app.enableCors({
     allowedHeaders: ['content-type', 'authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     credentials: true,
   });
   app.useGlobalPipes(

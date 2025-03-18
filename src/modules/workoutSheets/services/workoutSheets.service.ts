@@ -66,10 +66,22 @@ export class WorkoutSheetsService {
     return this.workoutSheetsRepository.findAllWorkoutSheets();
   }
 
+  async findAllByUserId(userId: string): Promise<WorkoutSheet[]> {
+    return this.workoutSheetsRepository.findAllWorkoutSheetsByUserId(userId);
+  }
+
   async findOne(id: string): Promise<WorkoutSheet> {
     const workoutSheet = await this.workoutSheetsRepository.findWorkoutSheetById(id);
     if (!workoutSheet) throw new NotFoundException('WorkoutSheet not found');
     return workoutSheet;
+  }
+
+  async linkUserToWorkoutSheet(userId: string, workoutSheetId: string): Promise<void> {
+    await this.workoutSheetsRepository.linkUserToWorkoutSheet(userId, workoutSheetId);
+  }
+
+  async unLinkUserToWorkoutSheet(userId: string, workoutSheetId: string): Promise<void> {
+    await this.workoutSheetsRepository.linkUserToWorkoutSheet(userId, workoutSheetId);
   }
 
   async remove(id: string): Promise<void> {

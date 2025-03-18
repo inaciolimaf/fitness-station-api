@@ -14,4 +14,5 @@ export class PayLoadData {
     id: string;
     username: string;
     role: Role;
+    companyId: string;
 }

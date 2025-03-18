@@ -19,33 +19,32 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    
     const user = await this.usersService.create(createUserDto);
     return user;
   }
 
-  @UseGuards(AuthGuard)
-  @RoleUser('client')
   @Get()
   async findAll() {
     return await this.usersService.findAll();
   }
 
   @UseGuards(AuthGuard)
-  @RoleUser('client')
+  @RoleUser('admin')
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.usersService.findOne(id);
   }
 
   @UseGuards(AuthGuard)
-  @RoleUser('client')
+  @RoleUser('admin')
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(id, updateUserDto);
   }
 
   @UseGuards(AuthGuard)
-  @RoleUser('client')
+  @RoleUser('admin')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.usersService.remove(id);

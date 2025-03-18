@@ -8,6 +8,9 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Nome é obrigatório' })
   username: string;
 
+  @IsString({ message: 'Nome inválido' })
+  @IsNotEmpty({ message: 'Nome é obrigatório' })
+  name: string
 
   @IsString()
   @IsNotEmpty({ message: 'senha é obrigatória' })
